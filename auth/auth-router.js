@@ -8,6 +8,11 @@ const router = express.Router();
 router.post("/login", async (req, res, next) => {});
 
 router.post("/register", async (req, res, next) => {
+  const user = req.body;
+  const hash = bcrypt.hashSync(user.password, 8);
+
+  user.password = hash;
+
   try {
     const { username } = req.body;
     const user = await Users.findBy({ username }).first();
